@@ -1,0 +1,65 @@
+erDiagram
+    COLLEGES ||--o{ DEPARTMENTS : has
+    COLLEGES ||--o{ USERS : has
+    DEPARTMENTS ||--o{ STUDENTS : has
+    DEPARTMENTS ||--o{ STAFF : has
+    DEPARTMENTS ||--o{ SEMESTERS : has
+    SEMESTERS ||--o{ SUBJECTS : has
+    SEMESTERS ||--o{ MARKSHEETS : "issued for"
+
+    USERS ||--o| STUDENTS : "is a"
+    USERS ||--o| STAFF : "is a"
+    USERS ||--o{ REFRESH_TOKENS : has
+    USERS ||--o{ NOTIFICATIONS : receives
+    USERS ||--o{ SUPPORT_TICKETS : raises
+    USERS ||--o{ AUDIT_LOGS : generates
+
+    STUDENTS ||--o{ MARKSHEETS : uploads
+    MARKSHEETS ||--|| OCR_RESULTS : produces
+    MARKSHEETS ||--o{ MARKSHEET_SUBJECTS : contains
+    MARKSHEETS ||--|| VERIFICATIONS : "goes through"
+    SUBJECTS ||--o{ MARKSHEET_SUBJECTS : "extracted as"
+    STAFF ||--o{ VERIFICATIONS : performs
+
+    COLLEGES {
+        bigint id PK
+        varchar name
+        varchar college_code UK
+        boolean is_active
+    }
+    USERS {
+        bigint id PK
+        bigint college_id FK
+        varchar email
+        enum role
+        boolean is_verified
+    }
+    STUDENTS {
+        bigint id PK
+        bigint user_id FK
+        bigint department_id FK
+        varchar roll_number
+        varchar university_register_no
+        int current_semester
+    }
+    MARKSHEETS {
+        bigint id PK
+        bigint student_id FK
+        bigint semester_id FK
+        varchar file_key
+        varchar virus_scan_status
+    }
+    OCR_RESULTS {
+        bigint id PK
+        bigint marksheet_id FK
+        jsonb raw_ocr_json
+        numeric confidence_score
+        boolean validation_passed
+    }
+    VERIFICATIONS {
+        bigint id PK
+        bigint marksheet_id FK
+        bigint staff_id FK
+        enum status
+        text rejection_reason
+    }
