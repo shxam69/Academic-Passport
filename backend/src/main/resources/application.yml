@@ -2,15 +2,48 @@ spring:
   application:
     name: academic-passport-backend
 
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres}:${DB_PORT:5432}/${POSTGRES_DB:academic_passport}
+    username: ${POSTGRES_USER:academic_passport_app}
+    password: ${POSTGRES_PASSWORD:}
+    hikari:
+      # Conservative pool size for a single-VPS pilot deployment — not tuned for
+      # scale, tuned for "don't exhaust a small Postgres instance's connections".
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false   # fail loudly on a non-empty, non-Flyway-managed DB
+    validate-on-migrate: true    # checksum mismatch = fail startup, not silent drift
+    out-of-order: false
+
+  jpa:
+    hibernate:
+      # Flyway owns the schema. Hibernate only validates its entity mappings against
+      # what Flyway already created — it must never create/update DDL itself. This
+      # line is the single most load-bearing setting in this file.
+      ddl-auto: validate
+    open-in-view: false          # avoid lazy-loading-in-controller anti-pattern
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
 server:
   port: 8080
 
-# Database, Flyway, and Security configuration are deliberately absent here —
-# they land in Module 3 (PostgreSQL + Flyway) and Module 5 (Authentication).
-# A Module 1 scaffold that already assumes a running Postgres instance would
-# make the context-load test below depend on infrastructure that doesn't
-# exist yet in the Sprint 1 order.
+# Super Admin bootstrap (consumed by the CommandLineRunner in Module 4).
+# No defaults on the credential values — an empty/missing password must fail
+# startup loudly, not silently bootstrap an account with a blank password.
+app:
+  bootstrap:
+    super-admin:
+      email: ${SUPER_ADMIN_EMAIL:}
+      password: ${SUPER_ADMIN_PASSWORD:}
 
 logging:
   level:
     com.academicpassport: INFO
+    org.flywaydb: INFO

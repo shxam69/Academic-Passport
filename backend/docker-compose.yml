@@ -1,10 +1,7 @@
 services:
   postgres:
-    # VERSION NOTE — VERIFY LOCALLY: PostgreSQL 18 was the current stable major as
-    # of this module's research (18.4, released May 2026). PostgreSQL 19 is in beta
-    # and not production-appropriate yet. This sandbox cannot pull images to confirm
-    # the exact tag exists on Docker Hub — run `docker compose pull postgres` and
-    # check hub.docker.com/_/postgres for the current patch tag before relying on this.
+    # Pinned to 17-alpine per explicit decision — do not bump to 18 until that
+    # upgrade is a deliberate, tested decision, not a side effect of "latest".
     image: postgres:17-alpine
     restart: unless-stopped
     environment:
@@ -57,6 +54,8 @@ services:
     ports:
       - "${APP_PORT:-8080}:8080"
     environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
       # DB/JWT/ClamAV env vars are declared here now so later modules only need
       # to add application.yml placeholders, not touch this file again.

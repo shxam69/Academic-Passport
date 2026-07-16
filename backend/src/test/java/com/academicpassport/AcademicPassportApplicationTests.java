@@ -1,22 +1,23 @@
 package com.academicpassport;
 
+import com.academicpassport.config.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * Module 1 scaffold test: verifies the Spring application context starts
- * cleanly with no beans wired yet beyond the framework defaults.
- * <p>
- * This is intentionally the only test in this module. There is no business
- * logic yet to unit test — the thing actually worth proving at this stage
- * is "does the app boot," and that's what this asserts. Every subsequent
- * module adds its own tests alongside its own code; this file does not grow.
+ * As of Module 3, this is no longer a trivial "does the app boot" check — it now
+ * proves the full stack wires up correctly: all 7 Flyway migrations apply cleanly
+ * against a real Postgres 17 instance, and every JPA entity's mappings validate
+ * against the resulting schema (ddl-auto=validate would fail this test loudly if
+ * an entity's annotations don't match what the migrations actually created).
+ * That mapping-validation step is precisely why this test matters more here than
+ * it did in Module 1 — it's the single check that would catch an entity/migration
+ * drift before it reaches a real deployment.
  */
-@SpringBootTest
-class AcademicPassportApplicationTests {
+class AcademicPassportApplicationTests extends AbstractIntegrationTest {
 
     @Test
-    void contextLoads() {
-        // Intentionally empty: a failed context load fails this test on its own.
+    void contextLoadsAndAllMigrationsApplyAndEntitiesValidateAgainstSchema() {
+        // Intentionally empty: a failed context load (migration error, ddl-auto
+        // validation mismatch, misconfigured datasource) fails this test on its own.
     }
 }
