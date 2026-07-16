@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
+    
+    @Value("${app.security.cookie.secure:true}")
+    private boolean secureCookie;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
@@ -89,7 +93,7 @@ public class AuthController {
     private void setRefreshTokenCookie(HttpServletResponse response, String refreshToken, int maxAge) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true); // Always secure in production
+        cookie.setSecure(secureCookie); // Configurable for local dev vs production
         cookie.setPath("/api/auth");
         cookie.setMaxAge(maxAge);
         cookie.setAttribute("SameSite", "Strict");
@@ -99,7 +103,7 @@ public class AuthController {
     private void clearRefreshTokenCookie(HttpServletResponse response) {
         Cookie cookie = new Cookie("refreshToken", null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+        cookie.setSecure(secureCookie);
         cookie.setPath("/api/auth");
         cookie.setMaxAge(0);
         cookie.setAttribute("SameSite", "Strict");

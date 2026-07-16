@@ -50,7 +50,9 @@ app:
       access-expiration-ms: 900000 # 15 minutes
       refresh-expiration-ms: 604800000 # 7 days
     cors:
-      allowed-origins: ${FRONTEND_ORIGIN:http://localhost:3000}
+      allowed-origins: ${FRONTEND_ORIGIN:http://localhost:5173}
+    cookie:
+      secure: ${COOKIE_SECURE:true}
 
 logging:
   level:
