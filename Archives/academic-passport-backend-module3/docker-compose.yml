@@ -54,17 +54,12 @@ services:
     ports:
       - "${APP_PORT:-8080}:8080"
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
       # DB/JWT/ClamAV env vars are declared here now so later modules only need
       # to add application.yml placeholders, not touch this file again.
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      SUPER_ADMIN_BOOTSTRAP_ENABLED: "true"
-      SUPER_ADMIN_EMAIL: ${SUPER_ADMIN_EMAIL}
-      SUPER_ADMIN_PASSWORD: ${SUPER_ADMIN_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       CLAMAV_HOST: ${CLAMAV_HOST:-clamav}
       CLAMAV_PORT: ${CLAMAV_PORT:-3310}

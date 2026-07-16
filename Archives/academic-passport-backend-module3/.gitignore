@@ -1,0 +1,20 @@
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS
+.DS_Store
+
+# Env / secrets — never commit real credentials
+.env
+*.env.local
+
+# Logs
+*.log
