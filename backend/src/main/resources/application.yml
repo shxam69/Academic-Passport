@@ -44,6 +44,14 @@ app:
       email: ${SUPER_ADMIN_EMAIL:}
       password: ${SUPER_ADMIN_PASSWORD:}
 
+  security:
+    jwt:
+      secret: ${JWT_SECRET:0000000000000000000000000000000000000000000000000000000000000000}
+      access-expiration-ms: 900000 # 15 minutes
+      refresh-expiration-ms: 604800000 # 7 days
+    cors:
+      allowed-origins: ${FRONTEND_ORIGIN:http://localhost:3000}
+
 logging:
   level:
     com.academicpassport: INFO

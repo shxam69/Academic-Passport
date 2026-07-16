@@ -21,6 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Tenant-scoped lookup by id, for STUDENT/STAFF self-service and staff/admin
     // operating on a specific tenant's users.
     Optional<User> findByIdAndCollegeId(Long id, Long collegeId);
+    
+    // Find all users by email to detect if a collegeCode is required for login
+    java.util.List<User> findByEmail(String email);
 
     // Used by the Module 4 bootstrap CommandLineRunner to check idempotently
     // whether a SUPER_ADMIN already exists before creating one.

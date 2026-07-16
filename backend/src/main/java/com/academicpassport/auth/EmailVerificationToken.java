@@ -13,25 +13,17 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-/**
- * No @SQLRestriction/soft-delete here — a revoked or expired refresh token has no
- * historical value worth preserving, and the `revoked` flag already fully captures
- * its lifecycle. Cleanup of old rows (revoked/expired) is a housekeeping job to
- * add later, not a soft-delete concern.
- */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "refresh_tokens")
-public class RefreshToken extends CreatedOnlyEntity {
+@Table(name = "email_verification_tokens")
+public class EmailVerificationToken extends CreatedOnlyEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Never store the raw token — only its hash. The service layer hashes the
-    // token before ever calling a repository method involving this column.
     @Column(name = "token_hash", nullable = false)
     private String tokenHash;
 
@@ -39,8 +31,5 @@ public class RefreshToken extends CreatedOnlyEntity {
     private Instant expiresAt;
 
     @Column(nullable = false)
-    private Boolean revoked = false;
-    
-    @Column(name = "family_id", nullable = false, length = 36)
-    private String familyId;
+    private Boolean used = false;
 }
