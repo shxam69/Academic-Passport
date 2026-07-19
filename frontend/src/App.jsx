@@ -2,9 +2,23 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './routes/ProtectedRoute';
+import { RoleProtectedRoute } from './routes/RoleProtectedRoute';
 import DashboardLayout from './layouts/DashboardLayout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Colleges from './pages/admin/Colleges';
+import CollegeDetails from './pages/admin/CollegeDetails';
+import PublicOnboarding from './pages/onboarding/PublicOnboarding';
+import AcademicRecords from './pages/student/AcademicRecords';
+import StaffVerificationQueue from './pages/staff/StaffVerificationQueue';
+import StaffVerificationWorkspace from './pages/staff/StaffVerificationWorkspace';
+
+// University Admin pages
+import UADashboard from './pages/university-admin/Dashboard';
+import UADepartments from './pages/university-admin/Departments';
+import UAAcademicStructure from './pages/university-admin/AcademicStructure';
+import UAStaff from './pages/university-admin/Staff';
+import UAStudents from './pages/university-admin/Students';
 
 function PlaceholderPage({ title }) {
   return (
@@ -22,15 +36,32 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/onboard/:token" element={<PublicOnboarding />} />
       
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/institutions" element={<PlaceholderPage title="Institutions Management" />} />
           <Route path="/dashboard/students" element={<PlaceholderPage title="Student Directory" />} />
-          <Route path="/dashboard/marksheets" element={<PlaceholderPage title="Marksheets & Records" />} />
+          <Route path="/dashboard/marksheets" element={<AcademicRecords />} />
           <Route path="/dashboard/verification" element={<PlaceholderPage title="Verification Requests" />} />
           <Route path="/dashboard/notifications" element={<PlaceholderPage title="Notifications" />} />
+          
+          <Route path="student/marksheets" element={<RoleProtectedRoute allowedRoles={['STUDENT']}><AcademicRecords /></RoleProtectedRoute>} />
+              
+          {/* STAFF Routes */}
+          <Route path="/dashboard/verifications" element={<RoleProtectedRoute allowedRoles={['STAFF']}><StaffVerificationQueue /></RoleProtectedRoute>} />
+          <Route path="/dashboard/verifications/:id" element={<RoleProtectedRoute allowedRoles={['STAFF']}><StaffVerificationWorkspace /></RoleProtectedRoute>} />
+          
+          <Route path="/admin/colleges" element={<Colleges />} />
+          <Route path="/admin/colleges/:id" element={<CollegeDetails />} />
+
+          {/* University Admin Routes */}
+          <Route path="/university-admin/dashboard" element={<UADashboard />} />
+          <Route path="/university-admin/departments" element={<UADepartments />} />
+          <Route path="/university-admin/academic-structure" element={<UAAcademicStructure />} />
+          <Route path="/university-admin/staff" element={<UAStaff />} />
+          <Route path="/university-admin/students" element={<UAStudents />} />
         </Route>
       </Route>
 

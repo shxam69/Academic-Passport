@@ -21,6 +21,7 @@ WORKDIR /app
 # Non-root user — never run the app as root in a container.
 RUN addgroup -S app && adduser -S app -G app
 COPY --from=build /build/target/academic-passport-backend.jar app.jar
+RUN mkdir -p /app/uploads && chown -R app:app /app/uploads
 RUN chown app:app app.jar
 USER app
 

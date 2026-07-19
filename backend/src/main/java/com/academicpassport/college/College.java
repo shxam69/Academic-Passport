@@ -33,4 +33,40 @@ public class College extends SoftDeletableEntity {
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
+
+    // Structured Address Fields
+    @Column(name = "address_line")
+    private String addressLine;
+
+    @Column
+    private String city;
+
+    @Column
+    private String state;
+
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column
+    private String country;
+
+    // Contact Information
+    @Column(name = "contact_name")
+    private String contactName;
+
+    @Column(name = "contact_email")
+    private String contactEmail;
+
+    @Column(name = "contact_phone")
+    private String contactPhone;
+
+    // Optional Profile Fields
+    @Column(name = "institution_type")
+    private String institutionType;
+
+    @Column
+    private String website;
+
+    @Column(name = "logo_url")
+    private String logoUrl;
 }

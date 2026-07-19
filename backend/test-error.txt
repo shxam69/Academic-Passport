@@ -1,0 +1,20 @@
+[INFO] Error stacktraces are turned on.
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------< com.academicpassport:academic-passport-backend >-----------
+[INFO] Building academic-passport-backend 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.5.0:clean (default-clean) @ academic-passport-backend ---
+[INFO] Deleting C:\Academic-Passport\backend\target
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ academic-passport-backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 12 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ academic-passport-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 123 source files with javac [debug parameters release 21] to target\classes
+Terminate batch job (Y/N)? 
+The syntax of the command is incorrect.

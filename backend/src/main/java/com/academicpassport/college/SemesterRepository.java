@@ -16,6 +16,8 @@ public interface SemesterRepository extends JpaRepository<Semester, Long> {
 
     Optional<Semester> findByDepartmentIdAndSemesterNumber(Long departmentId, Integer semesterNumber);
 
+    boolean existsByDepartmentId(Long departmentId);
+
     @Modifying
     @Query("UPDATE Semester s SET s.deletedAt = CURRENT_TIMESTAMP, s.deletedBy = :deletedBy WHERE s.id = :id AND s.college.id = :collegeId")
     void softDelete(@Param("id") Long id, @Param("collegeId") Long collegeId, @Param("deletedBy") Long deletedBy);

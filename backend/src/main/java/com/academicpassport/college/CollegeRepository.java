@@ -12,6 +12,14 @@ public interface CollegeRepository extends JpaRepository<College, Long> {
     Optional<College> findByCollegeCode(String collegeCode);
 
     boolean existsByCollegeCode(String collegeCode);
+    
+    @Query("SELECT c FROM College c WHERE " +
+           "(:isActive IS NULL OR c.isActive = :isActive) AND " +
+           "(:search = '' OR LOWER(c.name) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(c.collegeCode) LIKE LOWER(CONCAT('%', :search, '%')))")
+    org.springframework.data.domain.Page<College> searchColleges(
+            @Param("isActive") Boolean isActive, 
+            @Param("search") String search, 
+            org.springframework.data.domain.Pageable pageable);
 
     /**
      * The ONLY sanctioned way to remove a College. Never call delete()/deleteById()

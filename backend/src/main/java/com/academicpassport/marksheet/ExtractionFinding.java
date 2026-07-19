@@ -1,0 +1,13 @@
+package com.academicpassport.marksheet;
+
+public enum ExtractionFinding {
+    REGISTER_NUMBER_MISMATCH,
+    SEMESTER_MISMATCH,
+    MISSING_EXPECTED_SUBJECT,
+    UNKNOWN_SUBJECT,
+    AMBIGUOUS_SUBJECT,
+    DUPLICATE_SUBJECT,
+    INVALID_MARK_RANGE,
+    UNREADABLE_VALUE,
+    INCOMPLETE_DOCUMENT
+}

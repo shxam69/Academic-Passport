@@ -40,7 +40,7 @@ CREATE TABLE ocr_results (
     status              ocr_status NOT NULL DEFAULT 'PENDING',
     raw_ocr_json        JSONB,
     failure_reason      TEXT,
-    confidence_score    NUMERIC(4,3),
+    confidence_score    NUMERIC(5,2),
     validation_passed   BOOLEAN NOT NULL DEFAULT FALSE,
     validation_errors   JSONB,
     processed_at        TIMESTAMPTZ NOT NULL DEFAULT now()

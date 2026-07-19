@@ -9,4 +9,8 @@ public interface MarksheetSubjectRepository extends JpaRepository<MarksheetSubje
     // Same ownership-check discipline as OcrResultRepository: the service layer
     // must load+verify the parent Marksheet's tenant/ownership before calling this.
     List<MarksheetSubject> findAllByMarksheetId(Long marksheetId);
+    
+    java.util.Optional<MarksheetSubject> findByMarksheetIdAndSubjectId(Long marksheetId, Long subjectId);
+
+    void deleteByMarksheetId(Long marksheetId);
 }

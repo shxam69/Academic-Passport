@@ -32,8 +32,14 @@ public class MarksheetSubject extends VersionedEntity {
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    @Column(name = "marks_obtained")
-    private Integer marksObtained;
+    @Column(name = "ai_extracted_marks")
+    private Integer aiExtractedMarks;
+
+    @Column(name = "corrected_marks")
+    private Integer correctedMarks;
+
+    @Column(name = "verified_marks")
+    private Integer verifiedMarks;
 
     @Column
     private String grade;

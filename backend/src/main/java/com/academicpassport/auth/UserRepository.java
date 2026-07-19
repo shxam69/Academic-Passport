@@ -12,6 +12,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // STUDENT/STAFF login — tenant-scoped, matches the partial unique index
     // uq_users_college_email.
     Optional<User> findByCollegeIdAndEmail(Long collegeId, String email);
+    
+    // Find users by college and role (e.g. UNIVERSITY_ADMIN)
+    java.util.List<User> findByCollegeIdAndRole(Long collegeId, UserRole role);
 
     // SUPER_ADMIN login — deliberately NOT tenant-scoped, since college_id is
     // null for this role by the DB's CHECK constraint. Matches

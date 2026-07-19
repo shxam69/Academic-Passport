@@ -58,7 +58,15 @@ public class SecurityConfig {
                 .accessDeniedHandler(customAccessDeniedHandler)
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login", "/api/auth/refresh", "/api/auth/forgot-password", "/api/auth/reset-password", "/api/auth/verify-email", "/api/auth/resend-verification").permitAll()
+                .requestMatchers(
+                        "/api/auth/login", 
+                        "/api/auth/refresh", 
+                        "/api/auth/forgot-password", 
+                        "/api/auth/reset-password", 
+                        "/api/auth/verify-email", 
+                        "/api/auth/resend-verification",
+                        "/api/v1/onboarding/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

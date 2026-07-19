@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   ShieldCheck,
-  GraduationCap
+  GraduationCap,
+  Layers
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { cn } from '../components/ui/Button';
@@ -28,14 +29,34 @@ export default function DashboardLayout() {
     navigate('/login');
   };
 
-  const navItems = [
+  const baseNavItems = [
     { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  ];
+
+  const adminNavItems = [
+    { name: 'Colleges', href: '/admin/colleges', icon: Building2 },
+  ];
+
+  const tenantNavItems = [
     { name: 'Institutions', href: '/dashboard/institutions', icon: Building2 },
     { name: 'Students', href: '/dashboard/students', icon: Users },
     { name: 'Marksheets', href: '/dashboard/marksheets', icon: BookOpen },
     { name: 'Verification', href: '/dashboard/verification', icon: FileCheck },
     { name: 'Notifications', href: '/dashboard/notifications', icon: Bell },
   ];
+
+  const universityAdminNavItems = [
+    { name: 'Departments', href: '/university-admin/departments', icon: Building2 },
+    { name: 'Academic Structure', href: '/university-admin/academic-structure', icon: Layers },
+    { name: 'Staff', href: '/university-admin/staff', icon: BookOpen },
+    { name: 'Students', href: '/university-admin/students', icon: Users },
+  ];
+
+  const navItems = user?.role === 'SUPER_ADMIN' 
+    ? [...baseNavItems, ...adminNavItems]
+    : user?.role === 'UNIVERSITY_ADMIN' 
+      ? [...baseNavItems, ...universityAdminNavItems]
+      : [...baseNavItems, ...tenantNavItems];
 
   const formatRole = (role) => {
     if (!role) return '';

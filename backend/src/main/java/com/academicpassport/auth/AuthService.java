@@ -79,6 +79,10 @@ public class AuthService {
         if (!user.getIsActive()) {
             throw new DisabledException("Account is disabled");
         }
+        
+        if (user.getCollege() != null && !user.getCollege().getIsActive()) {
+            throw new DisabledException("College account is inactive");
+        }
 
         // Only SUPER_ADMIN bypasses email verification
         if (user.getRole() != UserRole.SUPER_ADMIN && !user.getIsVerified()) {
@@ -126,6 +130,10 @@ public class AuthService {
         User user = storedToken.getUser();
         if (!user.getIsActive()) {
             throw new DisabledException("Account is disabled");
+        }
+
+        if (user.getCollege() != null && !user.getCollege().getIsActive()) {
+            throw new DisabledException("College account is inactive");
         }
 
         String newAccessToken = jwtService.generateToken(user);

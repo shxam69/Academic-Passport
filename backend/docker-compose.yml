@@ -56,7 +56,11 @@ services:
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
+      UPLOAD_DIR: /app/uploads
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
+      AI_EXTRACTION_PROVIDER: ${AI_EXTRACTION_PROVIDER}
+      AI_GEMINI_API_KEY: ${AI_GEMINI_API_KEY}
+      AI_GEMINI_MODEL: ${AI_GEMINI_MODEL:-gemini-3.5-flash}
       # DB/JWT/ClamAV env vars are declared here now so later modules only need
       # to add application.yml placeholders, not touch this file again.
       POSTGRES_DB: ${POSTGRES_DB}
@@ -75,7 +79,10 @@ services:
         condition: service_healthy
       clamav:
         condition: service_healthy
+    volumes:
+      - marksheet_uploads:/app/uploads
 
 volumes:
   postgres_data:
   clamav_db:
+  marksheet_uploads:

@@ -51,7 +51,7 @@ public class OcrResult extends IdentifiedEntity {
     @Column(name = "failure_reason")
     private String failureReason;
 
-    @Column(name = "confidence_score", precision = 4, scale = 3)
+    @Column(name = "confidence_score", precision = 5, scale = 2)
     private BigDecimal confidenceScore;
 
     @Column(name = "validation_passed", nullable = false)
@@ -64,6 +64,22 @@ public class OcrResult extends IdentifiedEntity {
     // Set explicitly by the OCR processing code when it finishes (success or
     // failure), not auto-managed by JPA auditing — the row is created in PENDING
     // before this timestamp is meaningful.
-    @Column(name = "processed_at", nullable = false)
+    @Column(name = "processed_at")
     private Instant processedAt;
+
+    @Column(name = "attempt_count", nullable = false)
+    private Integer attemptCount = 0;
+
+    @Column(name = "processing_started_at")
+    private Instant processingStartedAt;
+
+    @Column(name = "last_attempt_at")
+    private Instant lastAttemptAt;
+
+    @Column(name = "next_retry_at")
+    private Instant nextRetryAt;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "findings", columnDefinition = "jsonb")
+    private String findings;
 }
